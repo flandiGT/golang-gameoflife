@@ -2,8 +2,8 @@ package main
 
 import (
 	"time"
-	"gameoflife/pattern"
 	"gameoflife/renderer"
+	"gameoflife/pattern"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 	universe.SetRenderer(renderer)
 
 	for {
-		time.Sleep(0 * time.Millisecond)
+		time.Sleep(200 * time.Millisecond)
 		universe.Next()
 	}
 }

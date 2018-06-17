@@ -47,8 +47,6 @@ func (renderer *NcursesRenderer) Draw(cell *core.Cell) {
 
 	if cell.IsAlive() {
 		w.Print("0")
-	} else {
-		w.Print(" ")
 	}
 
 	renderer.stdscr.Overlay(w);

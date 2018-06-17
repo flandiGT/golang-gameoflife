@@ -36,6 +36,9 @@ func (cells *Cells) Get(x int, y int) *Cell {
 	return cells.Cells[x][y]
 }
 
-func (cells *Cells) Set(x int, y int, alive bool) {
-	cells.Cells[x][y].alive = alive
+func (cells *Cells) Set(x int, y int, alive bool) *Cell {
+	cell := cells.Cells[x][y]
+	cell.alive = alive
+
+	return cell
 }

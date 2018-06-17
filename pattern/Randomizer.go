@@ -13,7 +13,7 @@ func CreateRandomUniverse(width int, height int) *core.Universe {
 
 	for x:= 0; x < width; x++ {
 		for y := 0; y < height; y++ {
-			universe.Set(x, y, rand.Int() % 5 == 1)
+			universe.Set(x, y, rand.Int() % 3 == 1)
 		}
 	}
 
