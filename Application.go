@@ -1,13 +1,14 @@
 package main
 
 import (
-	"gameoflife/core"
 	"time"
+	"gameoflife/pattern"
+	"gameoflife/renderer"
 )
 
 func main() {
-	universe := core.CreateRandomUniverse(100, 100)
-	renderer := core.NewNcursesRenderer()
+	universe := pattern.CreateRandomUniverse(230, 60)
+	renderer := renderer.NewNcursesRenderer()
 
 	for {
 		renderer.Render(universe)

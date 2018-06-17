@@ -1,7 +1,9 @@
-package core
+package pattern
 
-func CreatePulsar() *Universe {
-	universe := NewUniverse(17, 17)
+import "gameoflife/core"
+
+func CreatePulsar() *core.Universe {
+	universe := core.NewUniverse(17, 17)
 
 	universe.Set(5, 1, true)
 	universe.Set(5, 2, true)

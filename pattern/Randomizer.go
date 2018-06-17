@@ -1,12 +1,13 @@
-package core
+package pattern
 
 import (
+	"gameoflife/core"
 	"math/rand"
 	"time"
 )
 
-func CreateRandomUniverse(width int, height int) *Universe {
-	universe := NewUniverse(width,height)
+func CreateRandomUniverse(width int, height int) *core.Universe {
+	universe := core.NewUniverse(width,height)
 
 	rand.Seed(time.Now().UTC().UnixNano())
 

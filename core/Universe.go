@@ -1,9 +1,9 @@
 package core
 
 type Universe struct {
-	width int
-	height int
-	cells [][]bool
+	Width               int
+	Height              int
+	Cells               [][]bool
 	nextGenerationCells [][]bool
 }
 
@@ -25,30 +25,30 @@ func NewUniverse(width int, height int) *Universe {
 }
 
 func (universe *Universe) Get(x int, y int) bool {
-	if x < 0 || y < 0 || x >= universe.width || y >= universe.height {
+	if x < 0 || y < 0 || x >= universe.Width || y >= universe.Height {
 		return false
 	}
 
-	return universe.cells[x][y]
+	return universe.Cells[x][y]
 }
 
 func (universe *Universe) Set(x int, y int, isLiving bool) {
-	universe.cells[x][y] = isLiving
+	universe.Cells[x][y] = isLiving
 }
 
 func (universe *Universe) Next()  {
 
-	for x := 0; x < universe.width; x++ {
-		for y := 0; y < universe.height; y++ {
+	for x := 0; x < universe.Width; x++ {
+		for y := 0; y < universe.Height; y++ {
 			livingNeighbors := universe.countLivingNeighbors(x, y)
-			isLiving := universe.cells[x][y]
+			isLiving := universe.Cells[x][y]
 
 			universe.nextGenerationCells[x][y] = universe.willLive(isLiving, livingNeighbors)
 		}
 	}
 
-	temporaryCells := universe.cells
-	universe.cells = universe.nextGenerationCells
+	temporaryCells := universe.Cells
+	universe.Cells = universe.nextGenerationCells
 	universe.nextGenerationCells = temporaryCells
 }
 

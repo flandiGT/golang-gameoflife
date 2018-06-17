@@ -1,7 +1,9 @@
-package core
+package pattern
 
-func CreateBeacon() *Universe {
-	universe := NewUniverse(6, 6)
+import "gameoflife/core"
+
+func CreateBeacon() *core.Universe {
+	universe := core.NewUniverse(6, 6)
 
 	universe.Set(1, 1, true)
 	universe.Set(1, 2, true)

@@ -1,7 +1,8 @@
-package core
+package renderer
 
 import (
 	"fmt"
+	"gameoflife/core"
 )
 
 type SimpleRenderer struct {
@@ -11,10 +12,10 @@ func NewSimpleRenderer() *SimpleRenderer {
 	return &SimpleRenderer{}
 }
 
-func (renderer *SimpleRenderer) Render(universe *Universe) {
-	for x := 0; x < universe.width; x++ {
-		for y := 0; y < universe.height; y++ {
-			if universe.cells[x][y] {
+func (renderer *SimpleRenderer) Render(universe *core.Universe) {
+	for x := 0; x < universe.Width; x++ {
+		for y := 0; y < universe.Height; y++ {
+			if universe.Cells[x][y] {
 				fmt.Print("0")
 			} else {
 				fmt.Print(".")

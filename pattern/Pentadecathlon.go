@@ -1,7 +1,9 @@
-package core
+package pattern
 
-func CreatePentadecathlon() *Universe {
-	universe := NewUniverse(11, 18)
+import "gameoflife/core"
+
+func CreatePentadecathlon() *core.Universe {
+	universe := core.NewUniverse(11, 18)
 
 	universe.Set(4, 3, true)
 	universe.Set(5, 3, true)

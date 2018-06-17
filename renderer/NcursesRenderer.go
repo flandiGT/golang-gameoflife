@@ -1,8 +1,9 @@
-package core
+package renderer
 
 import (
 	gc "github.com/rthornton128/goncurses"
 	"log"
+	"gameoflife/core"
 )
 
 type NcursesRenderer struct {
@@ -16,7 +17,7 @@ func NewNcursesRenderer() *NcursesRenderer {
 	return &NcursesRenderer{}
 }
 
-func (renderer *NcursesRenderer) init(universe *Universe) {
+func (renderer *NcursesRenderer) init(universe *core.Universe) {
 	stdscr, err := gc.Init()
 	if err != nil {
 		log.Fatal(err)
@@ -25,8 +26,8 @@ func (renderer *NcursesRenderer) init(universe *Universe) {
 
 	renderer.stdscr = stdscr
 
-	renderer.width = universe.width
-	renderer.height = universe.height
+	renderer.width = universe.Width
+	renderer.height = universe.Height
 
 	gc.Cursor(0)
 	gc.Echo(false)
@@ -48,17 +49,17 @@ func (renderer *NcursesRenderer) drawCell(x int, y int, alive bool) {
 	renderer.stdscr.Overlay(w);
 }
 
-func (renderer *NcursesRenderer) Render(universe *Universe) {
+func (renderer *NcursesRenderer) Render(universe *core.Universe) {
 	if renderer.stdscr == nil {
 		renderer.init(universe)
 	}
 
 	renderer.stdscr.Erase()
 
-	for x := 0; x < universe.width; x++ {
-		for y := 0; y < universe.height; y++ {
+	for x := 0; x < universe.Width; x++ {
+		for y := 0; y < universe.Height; y++ {
 
-			renderer.drawCell(x, y, universe.cells[x][y]);
+			renderer.drawCell(x, y, universe.Cells[x][y]);
 		}
 	}
 

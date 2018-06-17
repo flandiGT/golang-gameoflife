@@ -1,7 +1,9 @@
-package core
+package pattern
 
-func CreateToad() *Universe {
-	universe := NewUniverse(6, 6)
+import "gameoflife/core"
+
+func CreateToad() *core.Universe {
+	universe := core.NewUniverse(6, 6)
 
 	universe.Set(3, 1, true)
 	universe.Set(4, 2, true)

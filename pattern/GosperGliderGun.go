@@ -1,7 +1,9 @@
-package core
+package pattern
 
-func CreateGosperGliderGun() *Universe {
-	universe := NewUniverse(38, 11)
+import "gameoflife/core"
+
+func CreateGosperGliderGun() *core.Universe {
+	universe := core.NewUniverse(38, 11)
 
 	universe.Set(1, 5, true)
 	universe.Set(1, 6, true)
