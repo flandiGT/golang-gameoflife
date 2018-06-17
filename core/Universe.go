@@ -1,15 +1,18 @@
 package core
 
-import "container/list"
+import (
+	"container/list"
+)
 
 type Universe struct {
 	Width  int
 	Height int
 	cells  *Cells
+	renderer Renderer
 }
 
 func NewUniverse(width int, height int) *Universe {
-	return &Universe{width,height,NewCells(width, height)}
+	return &Universe{width,height,NewCells(width, height), nil}
 }
 
 func (universe *Universe) Set(x int, y int, alive bool) {
@@ -18,6 +21,10 @@ func (universe *Universe) Set(x int, y int, alive bool) {
 
 func (universe *Universe) Get(x int, y int) *Cell {
 	return universe.cells.Get(x, y)
+}
+
+func (Universe *Universe) SetRenderer(renderer Renderer) {
+	Universe.renderer = renderer
 }
 
 func (universe *Universe) Next()  {
@@ -33,9 +40,15 @@ func (universe *Universe) Next()  {
 		}
 	}
 
+	universe.renderer.BeforeDraw()
+
 	element := cellsToBeChanged.Front()
 	for ; element != nil; element = element.Next() {
 		cell := element.Value.(*Cell)
+
 		cell.next()
+		universe.renderer.Draw(cell)
 	}
+
+	universe.renderer.AfterDraw()
 }

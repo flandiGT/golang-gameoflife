@@ -7,12 +7,16 @@ import (
 )
 
 func main() {
-	universe := pattern.CreateRandomUniverse(230, 60)
-	renderer := renderer.NewNcursesRenderer()
+	const width = 230
+	const height = 60
+
+	universe := pattern.CreateRandomUniverse(width, height)
+	renderer := renderer.NewNcursesRenderer(width, height)
+
+	universe.SetRenderer(renderer)
 
 	for {
-		renderer.Render(universe)
-		time.Sleep(1 * time.Millisecond)
+		time.Sleep(0 * time.Millisecond)
 		universe.Next()
 	}
 }

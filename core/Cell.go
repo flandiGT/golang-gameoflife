@@ -56,6 +56,14 @@ func (cell *Cell) IsAlive() bool {
 	return cell.alive
 }
 
+func (cell *Cell) GetX() int {
+	return cell.x
+}
+
+func (cell *Cell) GetY() int {
+	return cell.y
+}
+
 func (cell *Cell) estimateChange() bool {
 	cell.willLive = cell.estimateWillLive()
 	return cell.alive != cell.willLive

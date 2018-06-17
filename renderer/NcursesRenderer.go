@@ -7,17 +7,22 @@ import (
 )
 
 type NcursesRenderer struct {
+	core.Renderer
 	stdscr *gc.Window
 	pad *gc.Pad
 	err error
 	width, height int
+	universe *core.Universe
 }
 
-func NewNcursesRenderer() *NcursesRenderer {
-	return &NcursesRenderer{}
+func NewNcursesRenderer(width int, height int) *NcursesRenderer {
+	renderer := &NcursesRenderer{}
+	renderer.init(width, height)
+
+	return renderer
 }
 
-func (renderer *NcursesRenderer) init(universe *core.Universe) {
+func (renderer *NcursesRenderer) init(width int, height int) {
 	stdscr, err := gc.Init()
 	if err != nil {
 		log.Fatal(err)
@@ -26,21 +31,21 @@ func (renderer *NcursesRenderer) init(universe *core.Universe) {
 
 	renderer.stdscr = stdscr
 
-	renderer.width = universe.Width
-	renderer.height = universe.Height
+	renderer.width = width
+	renderer.height = height
 
 	gc.Cursor(0)
 	gc.Echo(false)
 	gc.HalfDelay(1)
 }
 
-func (renderer *NcursesRenderer) drawCell(x int, y int, alive bool) {
-	w, err := gc.NewWindow(1, 1, y, x)
+func (renderer *NcursesRenderer) Draw(cell *core.Cell) {
+	w, err := gc.NewWindow(1, 1, cell.GetY(), cell.GetX())
 	if err != nil {
 		log.Println("newBullet:", err)
 	}
 
-	if alive {
+	if cell.IsAlive() {
 		w.Print("0")
 	} else {
 		w.Print(" ")
@@ -49,19 +54,23 @@ func (renderer *NcursesRenderer) drawCell(x int, y int, alive bool) {
 	renderer.stdscr.Overlay(w);
 }
 
-func (renderer *NcursesRenderer) Render(universe *core.Universe) {
-	if renderer.stdscr == nil {
-		renderer.init(universe)
-	}
-
+func (renderer *NcursesRenderer) BeforeDraw() {
 	renderer.stdscr.Erase()
+}
 
-	for x := 0; x < universe.Width; x++ {
-		for y := 0; y < universe.Height; y++ {
-			cell := universe.Get(x, y)
-			renderer.drawCell(x, y, cell.IsAlive());
-		}
-	}
-
+func (renderer *NcursesRenderer) AfterDraw() {
 	renderer.stdscr.Refresh()
 }
+
+//func (renderer *NcursesRenderer) Render() {
+//	renderer.stdscr.Erase()
+//
+//	for x := 0; x < renderer.universe.Width; x++ {
+//		for y := 0; y < renderer.universe.Height; y++ {
+//			cell := renderer.universe.Get(x, y)
+//			renderer.Draw(cell);
+//		}
+//	}
+//
+//	renderer.stdscr.Refresh()
+//}
