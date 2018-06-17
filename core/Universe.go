@@ -3,25 +3,21 @@ package core
 type Universe struct {
 	Width               int
 	Height              int
-	Cells               [][]bool
-	nextGenerationCells [][]bool
+	Cells               [][] *Cell
 }
 
 func NewUniverse(width int, height int) *Universe {
-	var cells = make([][]bool, width)
-	var nextGenerationCells = make([][]bool, width)
+	var cells = make([][] *Cell, width)
 
 	for x := range cells {
-		cells[x] = make([]bool, height)
-		nextGenerationCells[x] = make([]bool, height)
+		cells[x] = make([] *Cell, height)
 
 		for y := range cells[x] {
-			cells[x][y] = false
-			nextGenerationCells[x][y] = false
+			cells[x][y] = NewCell(x, y)
 		}
 	}
 
-	return &Universe{width,height,cells, nextGenerationCells}
+	return &Universe{width,height,cells}
 }
 
 func (universe *Universe) Get(x int, y int) bool {
@@ -29,11 +25,11 @@ func (universe *Universe) Get(x int, y int) bool {
 		return false
 	}
 
-	return universe.Cells[x][y]
+	return universe.Cells[x][y].Alive
 }
 
 func (universe *Universe) Set(x int, y int, isLiving bool) {
-	universe.Cells[x][y] = isLiving
+	universe.Cells[x][y].Alive = isLiving
 }
 
 func (universe *Universe) Next()  {
@@ -41,15 +37,19 @@ func (universe *Universe) Next()  {
 	for x := 0; x < universe.Width; x++ {
 		for y := 0; y < universe.Height; y++ {
 			livingNeighbors := universe.countLivingNeighbors(x, y)
-			isLiving := universe.Cells[x][y]
+			cell := universe.Cells[x][y]
 
-			universe.nextGenerationCells[x][y] = universe.willLive(isLiving, livingNeighbors)
+			willLive := universe.willLive(cell.Alive, livingNeighbors)
+			cell.willLive(willLive)
 		}
 	}
 
-	temporaryCells := universe.Cells
-	universe.Cells = universe.nextGenerationCells
-	universe.nextGenerationCells = temporaryCells
+	for x := 0; x < universe.Width; x++ {
+		for y := 0; y < universe.Height; y++ {
+			cell := universe.Cells[x][y]
+			cell.next()
+		}
+	}
 }
 
 func (universe *Universe) countLivingNeighbors(x int, y int) int {
