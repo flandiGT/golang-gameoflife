@@ -58,8 +58,8 @@ func (renderer *NcursesRenderer) Render(universe *core.Universe) {
 
 	for x := 0; x < universe.Width; x++ {
 		for y := 0; y < universe.Height; y++ {
-
-			renderer.drawCell(x, y, universe.Cells[x][y].Alive);
+			cell := universe.Get(x, y)
+			renderer.drawCell(x, y, cell.IsAlive());
 		}
 	}
 
