@@ -1,22 +1,23 @@
 package main
 
 import (
-	"time"
+	"gameoflife/util"
 	"gameoflife/renderer"
-	"gameoflife/pattern"
+	"time"
+	"gameoflife/factory"
 )
 
 func main() {
-	const width = 230
-	const height = 60
+	arguments := util.NewArgumentParser().Parse()
+	universeFactory := factory.SelectUniverseFactory(arguments)
 
-	universe := pattern.CreateRandomUniverse(width, height)
-	renderer := renderer.NewNcursesRenderer(width, height)
+	universe := universeFactory.Build()
+	renderer := renderer.NewNcursesRenderer(arguments.Width, arguments.Height)
 
 	universe.SetRenderer(renderer)
 
 	for {
-		time.Sleep(200 * time.Millisecond)
+		time.Sleep(time.Duration(arguments.Interval) * time.Millisecond)
 		universe.Next()
 	}
 }

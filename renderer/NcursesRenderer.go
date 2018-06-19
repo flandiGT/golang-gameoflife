@@ -3,19 +3,19 @@ package renderer
 import (
 	gc "github.com/rthornton128/goncurses"
 	"log"
-	"gameoflife/core"
+	"gameoflife/model"
 )
 
 type NcursesRenderer struct {
-	core.Renderer
+	model.Renderer
 	stdscr *gc.Window
 	pad *gc.Pad
 	err error
 	width, height int
-	universe *core.Universe
+	universe *model.Universe
 }
 
-func NewNcursesRenderer(width int, height int) *NcursesRenderer {
+func NewNcursesRenderer(width int, height int) model.Renderer {
 	renderer := &NcursesRenderer{}
 	renderer.init(width, height)
 
@@ -39,7 +39,7 @@ func (renderer *NcursesRenderer) init(width int, height int) {
 	gc.HalfDelay(1)
 }
 
-func (renderer *NcursesRenderer) Draw(cell *core.Cell) {
+func (renderer *NcursesRenderer) Draw(cell *model.Cell) {
 	w, err := gc.NewWindow(1, 1, cell.GetY(), cell.GetX())
 	if err != nil {
 		log.Println("newBullet:", err)
@@ -59,16 +59,3 @@ func (renderer *NcursesRenderer) BeforeDraw() {
 func (renderer *NcursesRenderer) AfterDraw() {
 	renderer.stdscr.Refresh()
 }
-
-//func (renderer *NcursesRenderer) Render() {
-//	renderer.stdscr.Erase()
-//
-//	for x := 0; x < renderer.universe.Width; x++ {
-//		for y := 0; y < renderer.universe.Height; y++ {
-//			cell := renderer.universe.Get(x, y)
-//			renderer.Draw(cell);
-//		}
-//	}
-//
-//	renderer.stdscr.Refresh()
-//}
